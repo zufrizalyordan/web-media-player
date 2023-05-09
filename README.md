@@ -43,3 +43,15 @@ requiring latest browsers that support ES modules
 
 #### V1.5
 * Theme support
+
+<br><br>
+### Dev Requirements
+* sass installed to compile scss file
+* server to serve the static files
+
+### sass
+Development:<br>
+`sass --watch src/sass:style/`
+<br>
+Production:<br>
+`sass src/sass/style.scss css/style.css --style compressed`
