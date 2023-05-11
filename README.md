@@ -86,9 +86,10 @@ Production:<br>
 
 <br><br>
 ### Screenshots
-Empty Player state
+Empty Player state<br>
 ![Empty State](screenshots/empty-state.png "Empty state")
-Loaded Player state
+<br>
+Loaded Player state<br>
 ![Loaded State](screenshots/loaded-state.png "Loaded state")
 
 <br><br>
