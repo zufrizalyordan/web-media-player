@@ -91,7 +91,3 @@ Empty Player state<br>
 <br>
 Loaded Player state<br>
 ![Loaded State](screenshots/loaded-state.png "Loaded state")
-
-<br><br>
-### Credits
-* "welcome" mp3 Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=131917">UNIVERSFIELD</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=131917">Pixabay</a>
