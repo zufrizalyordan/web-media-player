@@ -1,12 +1,13 @@
 ## Web Media Player
 this a simple media player built because
-first i needed to listen to a playlist to stream only my favourite radios
-there are lots of free streaming audio sites, but my preference is different.
-there are lots of front end framework but this one is made using vanilla js
-requiring latest browsers that support ES modules
+first i needed to listen to a playlist to stream only my favourite radios.<br>
+there are lots of free streaming audio sites, but my preference is different.<br>
+there are lots of front end framework but this one is made using vanilla js ✨<br>
+requires latest browsers that support ES modules<br>
+tested on Safari<br>
 <br>
 I ❤️ DOM
-<br><br>
+<br>
 
 ### Specs
 #### Playlist metadata
