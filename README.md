@@ -74,7 +74,8 @@ I ❤️ DOM
 <br><br>
 ### Dev Requirements
 * sass installed to compile scss file
-* server to serve the static files
+* server to serve the static files e.g.
+    * `php -S localhost:8000`
 
 ### sass
 Development:<br>
@@ -82,6 +83,13 @@ Development:<br>
 <br>
 Production:<br>
 `sass src/sass/style.scss css/style.css --style compressed`
+
+<br><br>
+### Screenshots
+Empty Player state
+![Empty State](screenshots/empty-state.png "Empty state")
+Loaded Player state
+![Loaded State](screenshots/loaded-state.png "Loaded state")
 
 <br><br>
 ### Credits
