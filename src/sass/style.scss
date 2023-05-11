@@ -47,3 +47,244 @@ table {
 	border-spacing: 0;
 }
 * { box-sizing: border-box; }
+
+// Libraries
+$default-radius: 10px;
+@mixin border-radius {
+    border-radius: $default-radius;
+}
+
+.border-rad {
+    border-radius: $default-radius;
+}
+
+.hidden {
+	display: none !important;
+}
+
+// Main styles
+body {
+	background: url("../images/cartographer.png");
+}
+
+#app {
+	font-family:Arial, Helvetica, sans-serif;
+	box-shadow:  0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+	margin-top: 2px;
+}
+
+.loading-dots {
+	display: none;
+	align-items: center;
+
+	&.is-loading {
+		display: inline;
+	}
+
+	span {
+		animation-duration: 1s;
+		animation-iteration-count: infinite;
+		opacity: 0;
+	}
+
+	.dot-1 {
+		animation-name: loading-dots-1;
+		animation-delay: 0.1s;
+	}
+
+	.dot-2 {
+		animation-name: loading-dots-2;
+		animation-delay: 0.2s;
+	}
+
+	.dot-3 {
+		animation-name: loading-dots-3;
+		animation-delay: 0.3s;
+	}
+}
+
+@keyframes loading-dots-1 {
+	0% {
+		opacity: 0;
+	}
+	20% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes loading-dots-2 {
+	0% {
+		opacity: 0;
+	}
+	40% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes loading-dots-3 {
+	0% {
+		opacity: 0;
+	}
+	60% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+#app {
+	background-color: #e8e8e8;
+	width: 400px;
+	padding: 10px;
+	margin: 10% auto;
+	@extend .border-rad;
+}
+
+#radio-player-info {
+	background: url("../images/zwartevilt.png");
+	border: 1px solid #000;
+	@extend .border-rad;
+	padding: 10px;
+}
+
+.radio-player-info__signal {
+	display: inline-block;
+	background-color: #71e285;
+	border-radius: 5px;
+	width: 100px;
+	height: 100px;
+	padding: 10px;
+	vertical-align: top;
+	box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+	span {
+		display: inline-block;
+
+		b {
+			background-color: #181818;
+			color: #ebebeb;
+			padding: 3px 5px;
+			border-radius: 5px;
+			vertical-align: top;
+			font-weight: bold;
+		}
+
+		em {
+			border: 1px solid #181818;
+			padding: 3px 5px 2px;
+			border-radius: 5px;
+			font-size: 0.85em;
+			vertical-align: top;
+		}
+	}
+
+	.__signal-title {
+		font-size: 0.7em;
+
+		b, em {
+			display: inline-block;
+		}
+	}
+
+	.__signal-text {
+		margin-top: 10px;
+
+		b {
+			font-size: 2em;
+		}
+
+		small {
+			font-size: 0.9em;
+			display: block;
+			margin-top: -2px;
+			margin-left: 1px;
+		}
+	}
+}
+
+.radio-player-info__detail {
+	display: inline-block;
+	color: #ebebeb;
+	margin-left: 10px;
+
+	em {
+		text-transform: uppercase;
+		font-size: 0.75em;
+		color: #828282;
+	}
+}
+
+.radio-player-controls {
+	span {
+		display: inline-block;
+		border: 1px solid #ebebeb;
+		border-radius: 20px;
+	}
+
+	.__play {
+		padding: 11px 9px 9px 13px;
+	}
+
+	.__pause {
+		padding: 7px 10px 7px 12px;
+		font-size: 1.4em;
+	}
+}
+
+#playlist {
+	margin-top: 1em;
+
+	.playlist-title {
+		text-transform: uppercase;
+		font-size: 0.75em;
+		color: #717171;
+		margin-bottom: 5px;
+	}
+
+	.playlist-logo {
+		width: 25px;
+		height: 25px;
+		display: inline-block;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+		margin-right: 5px;
+	}
+
+	.playlist-items {
+		margin-left: 3px;
+
+		li {
+			background-color: #fefefe;
+			padding: 10px;
+			display: inline-block;
+			width: 48%;
+			margin: 3px;
+			border-radius: 5px;
+			border: 1px solid #ebebeb;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			font-size: 0.9em;
+			position: relative;
+
+			.playlist-item {
+				display: flex;
+				align-items: center;
+				line-height: 2em;
+			}
+		}
+	}
+}

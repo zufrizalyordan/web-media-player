@@ -5,16 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Media Player</title>
-    <script src="js/app.js" type="module"></script>
+    <script src="js/app.js?v1" type="module"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <noscript>You don't have javascript enabled</noscript>
 <div id="app">
-    <div id="player">
-        <audio src="" class="player_content"></audio>
+    <div id="radio-player-info">
+        <div class="radio-player-info__signal">
+            <span class="__signal-title">
+                <b>FM</b>
+                <em class="__signal-no">0</em>
+            </span>
+            <p  class="__signal-text">
+                <b>00.00</b>
+                <small>MHz</small>
+            </p>
+        </div>
+        <div class="radio-player-info__detail">
+            <em>Now Playing</em>
+            <div class="loading-dots"><span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span></div>
+
+            <h1>Please select stream</h1>
+            <p class="radio-player-controls hidden">
+                <span class="__play hidden">▶</span>
+                <span class="__pause">⏸</span>
+            </p>
+        </div>
     </div>
-    <div id="playlist"></div>
+    <div id="player"></div>
+    <div id="playlist">
+        <p class="playlist-title">Favourites</p>
+        <ul class="playlist-items"></ul>
+    </div>
 </div>
 </body>
 </html>
