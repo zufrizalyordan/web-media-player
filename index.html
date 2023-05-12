@@ -23,7 +23,7 @@
             </p>
         </div>
         <div class="radio-player-info__detail">
-            <em>Now Playing</em>
+            <em>Radio Station</em>
             <div class="loading-dots"><span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span></div>
 
             <h1>Please select stream</h1>
@@ -31,9 +31,14 @@
                 <span class="__play hidden">▶</span>
                 <span class="__pause">⏸</span>
             </p>
+
+            <span class="radio-player-volume hidden">
+                <input type="range" id="volume-slider" min="0" max="100" value="40" />
+            </span>
         </div>
     </div>
     <div id="player"></div>
+
     <div id="playlist">
         <p class="playlist-title">Favourites</p>
         <ul class="playlist-items"></ul>

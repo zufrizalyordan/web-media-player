@@ -1,7 +1,8 @@
 "use strict"
 
 import {
-    toggleRadioPlayClicks
+    toggleRadioPlayClicks,
+    radioKeyboardActions
 } from './RadioPlayerActions.js'
 
 export default class Player {
@@ -11,6 +12,7 @@ export default class Player {
 
     registerEvents = () => {
         toggleRadioPlayClicks()
+        radioKeyboardActions()
     }
 
     init = () => {
@@ -18,9 +20,17 @@ export default class Player {
 
         const audio = document.createElement('audio')
         audio.type = 'audio/mpeg'
-
         playerElement.appendChild(audio)
 
+        this.volume(audio)
+
         this.registerEvents()
+    }
+
+    volume = (audio) => {
+        const slider = document.getElementById("volume-slider")
+        slider.addEventListener("change", (e) => {
+            audio.volume = e.currentTarget.value / 100
+        })
     }
 }

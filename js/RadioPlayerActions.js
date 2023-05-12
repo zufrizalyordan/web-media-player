@@ -15,6 +15,11 @@ const updatePlayerControls = () => {
     if(controls.classList.contains('hidden')) {
         controls.classList.remove("hidden")
     }
+
+    const volume = document.querySelector('.radio-player-volume')
+    if(volume.classList.contains('hidden')) {
+        volume.classList.remove("hidden")
+    }
 }
 
 const updatePlayerInfo = (data) => {
@@ -75,6 +80,34 @@ const updatePlayerSignalInfo = (data) => {
 
     signalNo.textContent = data.id
     signalText.textContent = data.signal
+}
+
+const toggleRadioPlayButtons = () => {
+    const audioPlayer = document.querySelector("#player audio")
+    const playControl = document.querySelector(".radio-player-controls .__play")
+    const pauseControl = document.querySelector(".radio-player-controls .__pause")
+
+    if (audioPlayer.paused) {
+        playControl.click()
+    } else {
+        pauseControl.click()
+    }
+
+    updateToggleControls()
+}
+
+export const radioKeyboardActions = () => {
+    const playerContainer = document.getElementById("player")
+    // only enable when player is active, in this case its not hidden
+    if (!playerContainer.classList.contains('hidden')) {
+        document.addEventListener("keydown", (e) => {
+
+            // Spacebar key was pressed.
+            if (e.keyCode === 32) {
+                toggleRadioPlayButtons()
+            }
+        })
+    }
 }
 
 export const loadRadioData = (data) => {
