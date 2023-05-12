@@ -1,6 +1,6 @@
 "use strict"
 
-import { setState } from "./DataSource.js"
+import { setState, getState } from "./DataSource.js"
 
 const updatePlayer = (data) => {
     const audioPlayer = document.querySelector("#player audio")
@@ -96,15 +96,69 @@ const toggleRadioPlayButtons = () => {
     updateToggleControls()
 }
 
+const moveVolume =  (mode) => {
+    const audioPlayer = document.querySelector("#player audio")
+    const volumeSlider = document.querySelector('#volume-slider')
+    const volumeValue = parseInt(volumeSlider.value)
+
+    if (mode === "up" && volumeValue < 100) {
+        volumeSlider.value = volumeValue+10
+    }
+
+    if (mode === "down" && volumeValue > 0) {
+        volumeSlider.value = volumeValue-10
+    }
+
+    audioPlayer.volume = volumeSlider.value / 100
+}
+
+const getItem = (mode) => {
+    const state = getState()
+    const items = state.playlist
+
+    const idx = items.findIndex((object) => {
+        return parseInt(object.id) === parseInt(state.selectedItem.id)
+    })
+
+    let index = idx
+    let item = {}
+    if (mode == "prev") {
+        item = (idx == 0) ? items[items.length-1] : items[index-1]
+    } else {
+        item = (idx == items.length-1) ? items[0] : items[index+1]
+    }
+
+    return item
+}
+
 export const radioKeyboardActions = () => {
     const playerContainer = document.getElementById("player")
     // only enable when player is active, in this case its not hidden
     if (!playerContainer.classList.contains('hidden')) {
         document.addEventListener("keydown", (e) => {
-
             // Spacebar key was pressed.
             if (e.keyCode === 32) {
                 toggleRadioPlayButtons()
+            }
+
+            // Left key pressed
+            if (e.keyCode === 37) {
+                moveVolume("down")
+            }
+
+            // Right key pressed
+            if (e.keyCode === 39) {
+                moveVolume("up")
+            }
+
+            // Up key pressed. prev
+            if (e.keyCode === 38) {
+                loadRadioData(getItem("prev"))
+            }
+
+            // Down key pressed. next
+            if (e.keyCode === 40) {
+                loadRadioData(getItem("next"))
             }
         })
     }
