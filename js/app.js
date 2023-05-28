@@ -1,10 +1,11 @@
 "use strict"
 
 import { setState, fetchUrl } from './DataSource.js'
-import Playlist from './Playlist.js'
+import { baseUrl } from './Utils.js'
+import Playlist from './Playlist.js?v=1'
 import Player from './Player.js'
+const data = await fetchUrl(baseUrl+"/data/playlist.json")
 
-const data = await fetchUrl("/data/playlist.json")
 const playlist  = new Playlist()
 const player  = new Player()
 
