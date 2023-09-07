@@ -1,5 +1,5 @@
 "use strict"
-
+import { baseUrl } from "./Utils.js"
 import { playlistClicks } from "./PlaylistActions.js"
 
 export default class Playlist {
@@ -12,7 +12,7 @@ export default class Playlist {
 
     buildList = (data) => {
         const list = data.map(item => {
-            const image = (item.image.logo) ? `<div class="playlist-logo" style="background-image: url(${item.image.logo})"></div>` : ""
+            const image = (item.image.logo) ? `<div class="playlist-logo" style="background-image: url(${baseUrl}${item.image.logo})"></div>` : ""
             return `<li data-id="${item.id}"><div class="playlist-item">${image}<span>${item.title}</span></div></li>`
         })
 
