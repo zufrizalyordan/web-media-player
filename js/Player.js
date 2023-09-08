@@ -5,32 +5,26 @@ import {
     radioKeyboardActions
 } from './RadioPlayerActions.js'
 
-export default class Player {
-    constructor() {
+export const initPlayer = () => {
+    const playerElement = document.getElementById("player")
 
-    }
+    const audio = document.createElement('audio')
+    audio.type = 'audio/mpeg'
+    playerElement.appendChild(audio)
 
-    registerEvents = () => {
-        toggleRadioPlayClicks()
-        radioKeyboardActions()
-    }
+    setPlayerVolume(audio)
 
-    init = () => {
-        const playerElement = document.getElementById("player")
+    registerPlayerEvents()
+}
 
-        const audio = document.createElement('audio')
-        audio.type = 'audio/mpeg'
-        playerElement.appendChild(audio)
+export const registerPlayerEvents = () => {
+    toggleRadioPlayClicks()
+    radioKeyboardActions()
+}
 
-        this.volume(audio)
-
-        this.registerEvents()
-    }
-
-    volume = (audio) => {
-        const slider = document.getElementById("volume-slider")
-        slider.addEventListener("change", (e) => {
-            audio.volume = e.currentTarget.value / 100
-        })
-    }
+export const setPlayerVolume = (audio) => {
+    const slider = document.getElementById("volume-slider")
+    slider.addEventListener("change", (e) => {
+        audio.volume = e.currentTarget.value / 100
+    })
 }

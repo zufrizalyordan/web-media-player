@@ -1,16 +1,27 @@
 "use strict"
 import { baseUrl } from "./Utils.js"
 import { playlistClicks } from "./PlaylistActions.js"
+import { getState } from "./DataSource.js"
 
-export default class Playlist {
-    constructor() {
-    }
+export const registerPlaylistEvents = () => {
+    playlistClicks()
+}
 
-    registerEvents = () => {
-        playlistClicks()
-    }
+export const updatePlaylistActiveItem = () => {
+    const state = getState()
+    const activeItem = document.querySelector(".playlist-items li.active")
+    activeItem?.classList.remove("active")
 
-    buildList = (data) => {
+    const playlist = document.querySelectorAll(".playlist-items li")
+    playlist.forEach(item => {
+        if (item.getAttribute('data-id') == state.selectedItem.id) {
+            item.classList.add('active')
+        }
+    })
+}
+
+export const buildPlaylist = (data) => {
+    if (data.length>0) {
         const list = data.map(item => {
             const image = (item.image.logo) ? `<div class="playlist-logo" style="background-image: url(${baseUrl}${item.image.logo})"></div>` : ""
             return `<li data-id="${item.id}"><div class="playlist-item">${image}<span>${item.title}</span></div></li>`
@@ -20,10 +31,12 @@ export default class Playlist {
         list.forEach(item => {
             playlistContainer.innerHTML += item
         })
+    } else {
+        alert("No playlist data. please refresh.")
     }
+}
 
-    init = async (data) => {
-        await this.buildList(data)
-        await this.registerEvents()
-    }
+export const initPlaylist = async (data) => {
+    await buildPlaylist(data)
+    await registerPlaylistEvents()
 }

@@ -2,33 +2,21 @@
 
 import { setState, fetchUrl } from './DataSource.js'
 import { baseUrl } from './Utils.js'
-import Playlist from './Playlist.js?v=1'
-import Player from './Player.js'
+import { initPlaylist } from './Playlist.js?v=1'
+import { initPlayer } from './Player.js'
+
 const data = await fetchUrl(baseUrl+"/data/playlist.json")
 
-const playlist  = new Playlist()
-const player  = new Player()
+const initApp = async () => {
+    if (data) {
+        await setState({playlist: data})
 
-class App {
-    constructor() {
+        await initPlaylist(data)
 
-    }
-
-    init = async () => {
-        if (data) {
-            // set data
-            await setState({playlist: data})
-
-            // initiate playlist
-            await playlist.init(data)
-
-            // initiate player
-            await player.init()
-        } else {
-            alert("No data to build playlist")
-        }
+        await initPlayer()
+    } else {
+        alert("No data to build playlist")
     }
 }
 
-const app = new App()
-app.init()
+await initApp()

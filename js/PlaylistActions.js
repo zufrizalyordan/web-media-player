@@ -13,7 +13,6 @@ export const playlistClicks = () => {
 
             const data = state.playlist.find(item => item.id === parseInt(searchId))
 
-            // radio
             loadRadioData(data)
         }.bind(el)
     })
