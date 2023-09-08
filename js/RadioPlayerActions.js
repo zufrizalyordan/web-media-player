@@ -1,6 +1,7 @@
 "use strict"
 
 import { setState, getState } from "./DataSource.js"
+import { updatePlaylistActiveItem } from "./Playlist.js"
 
 const updatePlayer = (data) => {
     const audioPlayer = document.querySelector("#player audio")
@@ -165,10 +166,12 @@ export const radioKeyboardActions = () => {
 }
 
 export const loadRadioData = (data) => {
+    const state = getState()
     setState({ selectedItem: data })
     updatePlayer(data)
     updatePlayerControls()
     updatePlayerInfo(data)
     updateToggleControls()
     updatePlayerSignalInfo(data)
+    updatePlaylistActiveItem(data)
 }

@@ -325,16 +325,23 @@ h1 {
 			margin: 3px;
 			border-radius: 5px;
 			border: 1px solid #ebebeb;
+			box-shadow: 1px 3px 3px #cccccc;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			font-size: 0.9em;
 			position: relative;
+			opacity: 0.8;
 
 			.playlist-item {
 				display: flex;
 				align-items: center;
 				line-height: 2em;
+			}
+
+			&.active {
+				opacity: 1;
+				box-shadow: none;
 			}
 		}
 	}
