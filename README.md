@@ -50,7 +50,6 @@ I ❤️ DOM
 #### V1
 * Player with play and volume
 * Playlist only contains radio stream source
-* Playlist loads from url and stores it on localstorage
 
 #### V1.1
 * Playlist can contain music source (.mp3, .aac)
@@ -68,9 +67,6 @@ I ❤️ DOM
 #### V1.4
 * Player can control to repeat playlist
 * Player can control to shuffle playlist
-
-#### V1.5
-* Theme support
 
 <br><br>
 ### Dev Requirements

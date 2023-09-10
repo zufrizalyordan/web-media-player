@@ -1,6 +1,7 @@
 "use strict"
 
 let state = {
+    player: null,
     playlist: {},
     selectedItem: {},
 }

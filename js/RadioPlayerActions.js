@@ -3,12 +3,62 @@
 import { setState, getState } from "./DataSource.js"
 import { updatePlaylistActiveItem } from "./Playlist.js"
 
-const updatePlayer = (data) => {
-    const audioPlayer = document.querySelector("#player audio")
+const audioVis = () => {
+    const state = getState()
+    const player = state.player
 
-    audioPlayer.pause()
-    audioPlayer.src = data.stream_url
-    audioPlayer.play()
+    const audioCtx = window.AudioContext || window.webkitAudioContext
+
+    const ctx = new audioCtx()
+    const stream = new MediaStream(source)
+    // const src = ctx.createMediaStreamSource(stream)
+    // src.connect(audioCtx.destination)
+    // new Audio().srcObject = stream
+
+    // ___
+    // let audioSource = audioCtx.createMediaStreamSource(stream)
+    // let analyser = audioCtx.createAnalyser()
+    // audioSource.connect(analyser)
+    // analyser.connect(audioCtx.destination)
+    // new Audio().srcObject = stream
+    // analyser.fftSize = 128
+
+    // const bufferLength = analyser.frequencyBinCount
+    // const dataArray = new Uint8Array(bufferLength)
+    // const barWidth = canvas.width / bufferLength
+    // let barHeight
+
+    // function animate() {
+    //     x = 0
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    //     analyser.getByteFrequencyData(dataArray)
+    //     console.log(analyser)
+    //     for (let i = 0; i < bufferLength; i++) {
+    //         barHeight = dataArray[i];
+    //         ctx.fillStyle = "white"
+    //         ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
+    //         x += barWidth
+    //     }
+
+    //     requestAnimationFrame(animate)
+    //     console.log("animate")
+    // }
+
+    // animate()
+}
+
+const updatePlayer = async (data) => {
+    const state = getState()
+    const player = state.player
+    player.src = null
+    player.crossOrigin = true
+    player.src = data.stream_url
+    player.play()
+
+    player.addEventListener('loadedmetadata', () => {
+        // console.clear()
+        // console.log("metadata loaded. playing stream..")
+    }, false)
 }
 
 const updatePlayerControls = () => {
@@ -37,7 +87,8 @@ const showLoadingDots = (timeout) => {
 }
 
 const updateToggleControls = async () => {
-    const audioPlayer = document.querySelector("#player audio")
+    const state = getState()
+    const player = state.player
     const playControl = document.querySelector(".radio-player-controls .__play")
     const pauseControl = document.querySelector(".radio-player-controls .__pause")
 
@@ -49,28 +100,29 @@ const updateToggleControls = async () => {
         pauseControl.classList.add('hidden')
     }
 
-    const timeout = !audioPlayer.paused ? 3000 : 500
+    const timeout = !player.paused ? 3000 : 500
     showLoadingDots(timeout)
 
-    if (!audioPlayer.paused) {
+    if (!player.paused) {
         pauseControl.classList.remove('hidden')
     } else {
         playControl.classList.remove('hidden')
     }
 }
 
-export const toggleRadioPlayClicks = () => {
-    const audioPlayer = document.querySelector("#player audio")
+const toggleRadioPlayClickEvents = () => {
+    const state = getState()
+    const player = state.player
     const playControl = document.querySelector(".radio-player-controls .__play")
     const pauseControl = document.querySelector(".radio-player-controls .__pause")
 
     playControl.onclick = () => {
-        audioPlayer.play()
+        player.play()
         updateToggleControls()
     }
 
     pauseControl.onclick = () => {
-        audioPlayer.pause()
+        player.pause()
         updateToggleControls()
     }
 }
@@ -84,11 +136,12 @@ const updatePlayerSignalInfo = (data) => {
 }
 
 const toggleRadioPlayButtons = () => {
-    const audioPlayer = document.querySelector("#player audio")
+    const state = getState()
+    const player = state.player
     const playControl = document.querySelector(".radio-player-controls .__play")
     const pauseControl = document.querySelector(".radio-player-controls .__pause")
 
-    if (audioPlayer.paused) {
+    if (player.paused) {
         playControl.click()
     } else {
         pauseControl.click()
@@ -97,8 +150,18 @@ const toggleRadioPlayButtons = () => {
     updateToggleControls()
 }
 
+export const setPlayerVolume = () => {
+    const state = getState()
+    const player = state.player
+    const slider = document.getElementById("volume-slider")
+    slider.addEventListener("change", (e) => {
+        player.volume = e.currentTarget.value / 100
+    })
+}
+
 const moveVolume =  (mode) => {
-    const audioPlayer = document.querySelector("#player audio")
+    const state = getState()
+    const player = state.player
     const volumeSlider = document.querySelector('#volume-slider')
     const volumeValue = parseInt(volumeSlider.value)
 
@@ -110,7 +173,7 @@ const moveVolume =  (mode) => {
         volumeSlider.value = volumeValue-10
     }
 
-    audioPlayer.volume = volumeSlider.value / 100
+    player.volume = volumeSlider.value / 100
 }
 
 const getItem = (mode) => {
@@ -132,33 +195,39 @@ const getItem = (mode) => {
     return item
 }
 
-export const radioKeyboardActions = () => {
+export const initRadioPlayer = () => {
+    toggleRadioPlayClickEvents()
+    radioKeyboardEvents()
+    setPlayerVolume()
+}
+
+const radioKeyboardEvents = () => {
     const playerContainer = document.getElementById("player")
     // only enable when player is active, in this case its not hidden
     if (!playerContainer.classList.contains('hidden')) {
         document.addEventListener("keydown", (e) => {
             // Spacebar key was pressed.
-            if (e.keyCode === 32) {
+            if (e.code === "Space") {
                 toggleRadioPlayButtons()
             }
 
             // Left key pressed
-            if (e.keyCode === 37) {
+            if (e.key === "ArrowLeft") {
                 moveVolume("down")
             }
 
             // Right key pressed
-            if (e.keyCode === 39) {
+            if (e.key === "ArrowRight") {
                 moveVolume("up")
             }
 
             // Up key pressed. prev
-            if (e.keyCode === 38) {
+            if (e.key === "ArrowUp") {
                 loadRadioData(getItem("prev"))
             }
 
             // Down key pressed. next
-            if (e.keyCode === 40) {
+            if (e.key === "ArrowDown") {
                 loadRadioData(getItem("next"))
             }
         })

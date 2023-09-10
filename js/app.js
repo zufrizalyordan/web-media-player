@@ -9,7 +9,11 @@ const data = await fetchUrl(baseUrl+"/data/playlist.json")
 
 const initApp = async () => {
     if (data) {
-        await setState({playlist: data})
+        const audio = new Audio()
+        await setState({
+            playlist: data,
+            player: audio
+        })
 
         await initPlaylist(data)
 
