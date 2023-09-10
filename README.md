@@ -53,7 +53,7 @@ I ❤️ DOM
 
 #### V1.1
 * Playlist can contain music source (.mp3, .aac)
-* Player can handle controls switching for different type of source (radio/music)
+* User switch between radio & music
 * Player has controls for music: prev, next, play/pause
 
 #### V1.2
@@ -61,12 +61,8 @@ I ❤️ DOM
 * Player can control to shuffle playlist
 
 #### V1.3
-* Playlist can contain video source
-* Player can handle video
-
-#### V1.4
-* Player can control to repeat playlist
-* Player can control to shuffle playlist
+* Player can handle video source
+* User can switch between radio/music/video
 
 <br><br>
 ### Dev Requirements
