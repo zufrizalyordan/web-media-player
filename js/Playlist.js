@@ -1,5 +1,5 @@
 "use strict"
-import { baseUrl } from "./Utils.js"
+import { baseUrl, secondsToMinutes } from "./Utils.js"
 import { playlistClicks } from "./PlaylistActions.js"
 import { getState } from "./DataSource.js"
 
@@ -23,8 +23,22 @@ export const updatePlaylistActiveItem = () => {
 export const buildPlaylist = (data) => {
     if (data.length>0) {
         const list = data.map(item => {
-            const image = (item.image.logo) ? `<div class="playlist-logo" style="background-image: url(${baseUrl}${item.image.logo})"></div>` : ""
-            return `<li data-id="${item.id}"><div class="playlist-item">${image}<span>${item.title}</span></div></li>`
+            let img = ""
+            if (item.image.logo !== undefined) {
+                img = baseUrl+item.image.logo
+            } else if (item.image.cover !== undefined) {
+                img = item.image.cover
+            }
+
+            const image = (img) ? `<div class="playlist-logo" style="background-image: url(${img})"></div>` : ""
+
+            let meta = ""
+            let metaDuration = secondsToMinutes(item.meta.duration)
+            if(item.type == "music") {
+                meta = `<span class="meta">${item.meta.artist} &middot; ${item.meta.year} &middot; ${metaDuration}</span>`
+            }
+
+            return `<li data-id="${item.id}" data-type="${item.type}" class="playlist-item">${image}<div class="playlist-info"><span class="title">${item.title}</span>${meta}</div></li>`
         })
 
         const playlistContainer = document.querySelector(".playlist-items")

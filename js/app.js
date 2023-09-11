@@ -4,8 +4,13 @@ import { setState, fetchUrl } from './DataSource.js'
 import { baseUrl } from './Utils.js'
 import { initPlaylist } from './Playlist.js?v=1'
 import { initPlayer } from './Player.js'
+import { typeSelectorEvents } from './GenericEvents.js'
 
 const data = await fetchUrl(baseUrl+"/data/playlist.json")
+
+const registerEvents = () => {
+    typeSelectorEvents()
+}
 
 const initApp = async () => {
     if (data) {
@@ -16,8 +21,9 @@ const initApp = async () => {
         })
 
         await initPlaylist(data)
-
         await initPlayer()
+
+        await registerEvents()
     } else {
         alert("No data to build playlist")
     }

@@ -26,21 +26,59 @@ I ❤️ DOM
 [
     {
         "id": 1,
+        "type": "radio",
         "title":"Radio radio",
         "signal": "00.0 FM",
         "stream_url": "stream url here",
-        "image": {},
+        "image": {
+            "logo": "/images/logo/gold-90-5-fm.png"
+        },
         "background": "",
         "meta": {}
     },
     {
         "id": 2,
+        "type": "radio",
         "title":"Radio radio",
         "signal": "01.0 FM",
         "stream_url": "stream url here",
-        "image": {},
+        "image": {
+            "logo": "/images/logo/power98.png"
+        },
         "background": "",
         "meta": {}
+    },
+    {
+        "id": 3,
+        "type": "music",
+        "title":"Otjánbird Pt. II",
+        "stream_url": "stream url here",
+        "image": {
+            "poster": "",
+            "cover": "http://img.freepik.com/free-vector/hand-drawn-world-music-day-poster-template_23-2149412112.jpg?size=626&ext=jpg&ga=GA1.1.329083900.1694428562&semt=ais"
+        },
+        "background": "",
+        "meta": {
+            "artist": "Spheriá",
+            "year": "2022",
+            "duration": "270"
+        }
+    },
+    {
+        "id": 4,
+        "type": "music",
+        "title":"A Promise",
+        "stream_url": "stream url here",
+        "image": {
+            "poster": "",
+            "cover": "http://img.freepik.com/free-vector/music-event-poster-with-photo_52683-42061.jpg"
+        },
+        "background": "",
+        "meta": {
+            "artist": "Keys of Moon",
+            "year": "2023",
+            "duration": "146"
+        }
     }
 ]
 ```
@@ -52,13 +90,12 @@ I ❤️ DOM
 * Playlist only contains radio stream source
 
 #### V1.1
-* Playlist can contain music source (.mp3, .aac)
+* Playlist can play music source (.mp3, .aac)
 * User switch between radio & music
 * Player has controls for music: prev, next, play/pause
 
 #### V1.2
-* Player can control to repeat playlist
-* Player can control to shuffle playlist
+* Player can control to repeat music
 
 #### V1.3
 * Player can handle video source
@@ -84,3 +121,20 @@ Empty Player state<br>
 <br>
 Loaded Player state<br>
 ![Loaded State](screenshots/loaded-state.png "Loaded state")
+
+
+#### Image Credits
+Music Poster from Freepik -> https://www.freepik.com/free-photos-vectors/music-poster
+
+
+#### Music Credits
+a promise by Keys of Moon | https://soundcloud.com/keysofmoon
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY 4.0
+https://creativecommons.org/licenses/by/4.0/
+
+
+Otjánbird Pt. II by Spheriá | https://soundcloud.com/spheriamusic
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY-SA 3.0
+https://creativecommons.org/licenses/by-sa/3.0/

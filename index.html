@@ -13,6 +13,7 @@
 <div id="app">
     <div id="radio-player-info">
         <div class="radio-player-info__signal">
+            <div class="__music-image hidden"></div>
             <span class="__signal-title">
                 <b>FM</b>
                 <em class="__signal-no">0</em>
@@ -23,7 +24,7 @@
             </p>
         </div>
         <div class="radio-player-info__detail">
-            <em>Radio Station</em>
+            <em>Now Playing</em>
             <div class="loading-dots"><span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span></div>
 
             <h1>Please select stream</h1>
@@ -40,6 +41,12 @@
     <div id="player"></div>
 
     <div id="playlist">
+        <!-- <div class="type-selector">
+            <a href="javascript:void(0)" data-type="all">All</a>
+            <a href="javascript:void(0)" data-type="radio">Radio</a>
+            <a href="javascript:void(0)" data-type="music">Music</a>
+        </div>
+        -->
         <p class="playlist-title">Favourites</p>
         <ul class="playlist-items"></ul>
         <!-- <canvas id="visualiser"></canvas> -->

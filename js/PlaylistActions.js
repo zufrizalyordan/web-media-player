@@ -1,6 +1,6 @@
 "use strict"
 
-import { loadRadioData } from "./RadioPlayerActions.js"
+import { loadTitle } from "./RadioPlayerActions.js"
 import { getState } from "./DataSource.js"
 
 export const playlistClicks = () => {
@@ -13,7 +13,7 @@ export const playlistClicks = () => {
 
             const data = state.playlist.find(item => item.id === parseInt(searchId))
 
-            loadRadioData(data)
+            loadTitle(data)
         }.bind(el)
     })
 }

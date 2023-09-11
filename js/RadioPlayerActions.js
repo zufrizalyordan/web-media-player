@@ -50,7 +50,6 @@ const audioVis = () => {
 const updatePlayer = async (data) => {
     const state = getState()
     const player = state.player
-    player.src = null
     player.crossOrigin = true
     player.src = data.stream_url
     player.play()
@@ -128,8 +127,42 @@ const toggleRadioPlayClickEvents = () => {
 }
 
 const updatePlayerSignalInfo = (data) => {
+    const signalInfo = document.querySelector('.radio-player-info__signal')
     const signalNo = document.querySelector('.__signal-no')
     const signalText = document.querySelector('.__signal-text b')
+    const signalTitle = document.querySelector('.__signal-title')
+    const signalTextContainer = document.querySelector('.__signal-text')
+    const musicImage = document.querySelector('.__music-image')
+
+    if(data.type == "music") {
+        if (!signalNo.classList.contains("hidden")) {
+            signalNo.classList.add("hidden")
+            signalText.classList.add("hidden")
+            signalTitle.classList.add("hidden")
+            signalTextContainer.classList.add("hidden")
+        }
+
+        if(musicImage.classList.contains("hidden")) {
+            musicImage.classList.remove("hidden")
+        }
+
+        if(!signalInfo.classList.contains('music')) {
+            signalInfo.classList.remove('radio')
+            signalInfo.classList.add('music')
+        }
+
+        musicImage.style.backgroundImage = "url('"+data.image.cover+"')"
+    } else {
+        if(!musicImage.classList.contains("hidden")) {
+            musicImage.classList.add("hidden")
+
+            signalNo.classList.remove("hidden")
+            signalText.classList.remove("hidden")
+            signalTitle.classList.remove("hidden")
+            signalTextContainer.classList.remove("hidden")
+            signalInfo.classList.remove('music')
+        }
+    }
 
     signalNo.textContent = data.id
     signalText.textContent = data.signal
@@ -223,18 +256,18 @@ const radioKeyboardEvents = () => {
 
             // Up key pressed. prev
             if (e.key === "ArrowUp") {
-                loadRadioData(getItem("prev"))
+                loadTitle(getItem("prev"))
             }
 
             // Down key pressed. next
             if (e.key === "ArrowDown") {
-                loadRadioData(getItem("next"))
+                loadTitle(getItem("next"))
             }
         })
     }
 }
 
-export const loadRadioData = (data) => {
+export const loadTitle = (data) => {
     const state = getState()
     setState({ selectedItem: data })
     updatePlayer(data)
