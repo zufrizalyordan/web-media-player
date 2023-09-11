@@ -119,8 +119,12 @@ Production:<br>
 Empty Player state<br>
 ![Empty State](screenshots/empty-state.png "Empty state")
 <br>
-Loaded Player state<br>
-![Loaded State](screenshots/loaded-state.png "Loaded state")
+Loaded Radio Player state<br>
+![Loaded Radio State](screenshots/loaded-state-radio.png "Loaded Radio state")
+<br>
+Loaded Music Player state<br>
+![Loaded Music State](screenshots/loaded-state-music.png "Loaded Music state")
+<br>
 
 
 #### Image Credits
