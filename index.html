@@ -29,14 +29,14 @@
             <em>Now Playing</em>
             <div class="loading-dots" role="status" aria-label="Loading"><span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span></div>
 
-            <h1>Please select stream</h1>
+            <h1 id="now-playing-message" aria-live="polite">Please select stream</h1>
             <div class="radio-player-controls hidden" role="group" aria-label="Playback Controls">
-                <button class="__play hidden" aria-label="Play"><img src="images/play.svg" alt="Play"/></button>
-                <button class="__pause" aria-label="Pause"><img src="images/pause.svg" alt="Pause"/></button>
+                <button class="__play hidden" aria-label="Play stream"><img src="images/play.svg" alt="Play"/></button>
+                <button class="__pause" aria-label="Pause stream"><img src="images/pause.svg" alt="Pause"/></button>
             </div>
 
             <div class="radio-player-volume hidden" role="group" aria-label="Volume Control">
-                <input type="range" id="volume-slider" min="0" max="100" step="1" value="100" aria-label="Volume" />
+                <input type="range" id="volume-slider" min="0" max="100" step="1" value="100" aria-label="Volume slider" />
             </div>
         </div>
     </div>

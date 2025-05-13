@@ -35,18 +35,28 @@ export const buildPlaylist = (data) => {
                 } else if (item.image.cover !== undefined) {
                     img = item.image.cover
                 }
-                const image = (img) ? `<div class="playlist-logo" style="background-image: url(${img})"></div>` : ""
+                const image = (img) ? `<div class=\"playlist-logo\" style=\"background-image: url(${img})\"></div>` : ""
                 let meta = ""
                 let metaDuration = secondsToMinutes(item.meta.duration)
                 if(item.type == "music") {
-                    meta = `<span class="meta">${item.meta.artist} &middot; ${item.meta.year} &middot; ${metaDuration}</span>`
+                    meta = `<span class=\"meta\">${item.meta.artist} &middot; ${item.meta.year} &middot; ${metaDuration}</span>`
                 }
-                return `<div data-id="${item.id}" data-type="${item.type}" class="playlist-item">${image}<div class="playlist-info"><span class="title">${item.title}</span>${meta}</div></div>`
+                return `<div data-id=\"${item.id}\" data-type=\"${item.type}\" class=\"playlist-item\" tabindex=\"0\" aria-label=\"Station: ${item.title}\">${image}<div class=\"playlist-info\"><span class=\"title\">${item.title}</span>${meta}</div></div>`
             }).join("")
-            return `<div class="playlist-row">${items}</div>`
+            return `<div class=\"playlist-row\">${items}</div>`
         })
         const playlistContainer = document.querySelector(".playlist-items")
         playlistContainer.innerHTML = list.join("")
+
+        // Add keyboard support for playlist-item activation
+        playlistContainer.querySelectorAll('.playlist-item').forEach(item => {
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    item.click()
+                }
+            })
+        })
     } else {
         alert("No playlist data. please refresh.")
     }

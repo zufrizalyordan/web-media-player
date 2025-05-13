@@ -123,9 +123,10 @@ const updatePlayer = async (data) => {
 }
 
 const showError = (message) => {
-    const title = document.querySelector('#radio-player-info h1')
+    const title = document.querySelector('#now-playing-message')
     title.textContent = message
     title.style.color = '#ff4444'
+    title.setAttribute('aria-live', 'assertive')
 }
 
 const updatePlayerControls = () => {
@@ -141,9 +142,10 @@ const updatePlayerControls = () => {
 }
 
 const updatePlayerInfo = (data) => {
-    const title = document.querySelector('#radio-player-info h1')
+    const title = document.querySelector('#now-playing-message')
     title.textContent = data.title
     title.style.color = '' // Reset error color if any
+    title.setAttribute('aria-live', 'polite')
 }
 
 const showLoadingDots = (timeout) => {
