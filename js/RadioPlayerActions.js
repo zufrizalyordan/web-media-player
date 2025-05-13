@@ -6,10 +6,23 @@ import { updatePlaylistActiveItem } from "./Playlist.js"
 let audioContext = null
 let analyser = null
 let animationFrame = null
+let sourceNode = null
+let currentPlayerElement = null
 
 const initAudioVisualizer = () => {
     const canvas = document.getElementById('visualiser')
-    if (!canvas) return
+    if (!canvas) {
+        console.warn('Visualizer canvas not found')
+        return
+    }
+
+    // Responsive canvas
+    const resizeCanvas = () => {
+        canvas.width = canvas.offsetWidth || 400
+        canvas.height = canvas.offsetHeight || 60
+    }
+    resizeCanvas()
+    window.addEventListener('resize', resizeCanvas)
 
     const ctx = canvas.getContext('2d')
     const state = getState()
@@ -17,39 +30,57 @@ const initAudioVisualizer = () => {
 
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)()
-        analyser = audioContext.createAnalyser()
-        analyser.fftSize = 256
+        console.log('AudioContext created')
     }
-
-    const source = audioContext.createMediaElementSource(player)
-    source.connect(analyser)
-    analyser.connect(audioContext.destination)
+    if (!analyser) {
+        analyser = audioContext.createAnalyser()
+        analyser.fftSize = 128
+        console.log('AnalyserNode created')
+    }
+    // Only create sourceNode if not already created for this player
+    if (!sourceNode || currentPlayerElement !== player) {
+        if (sourceNode) {
+            sourceNode.disconnect()
+        }
+        sourceNode = audioContext.createMediaElementSource(player)
+        currentPlayerElement = player
+        sourceNode.connect(analyser)
+        analyser.connect(audioContext.destination)
+        console.log('MediaElementSource connected')
+    }
 
     const bufferLength = analyser.frequencyBinCount
     const dataArray = new Uint8Array(bufferLength)
-    const barWidth = canvas.width / bufferLength
-    let barHeight
 
-    const animate = () => {
-        animationFrame = requestAnimationFrame(animate)
+    const draw = () => {
+        animationFrame = requestAnimationFrame(draw)
         analyser.getByteFrequencyData(dataArray)
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = '#337840'
+        // Log the first 10 bytes for debugging
+        console.log('Audio bytes:', dataArray.slice(0, 10))
 
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        const barWidth = canvas.width / bufferLength
         for (let i = 0; i < bufferLength; i++) {
-            barHeight = dataArray[i] * 2
-            ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 1, barHeight)
+            const barHeight = (dataArray[i] / 255) * canvas.height
+            ctx.fillStyle = `hsl(${i * 360 / bufferLength}, 80%, 60%)`
+            ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight)
         }
     }
 
-    animate()
+    console.log('Starting visualizer draw loop')
+    draw()
 }
 
 const stopAudioVisualizer = () => {
     if (animationFrame) {
         cancelAnimationFrame(animationFrame)
         animationFrame = null
+    }
+    if (sourceNode) {
+        sourceNode.disconnect()
+        sourceNode = null
     }
 }
 
@@ -58,6 +89,7 @@ const updatePlayer = async (data) => {
         const state = getState()
         const player = state.player
         player.crossOrigin = 'anonymous'
+        // Set the stream URL directly (no proxy)
         player.src = data.stream_url
 
         // Show loading dots when playback is requested
@@ -110,6 +142,10 @@ const updatePlayer = async (data) => {
         }, { once: true })
 
         player.addEventListener('pause', () => {
+            stopAudioVisualizer()
+        })
+
+        player.addEventListener('ended', () => {
             stopAudioVisualizer()
         })
 
@@ -355,3 +391,11 @@ export const loadTitle = (data) => {
     updatePlayerSignalInfo(data)
     updatePlaylistActiveItem(data)
 }
+
+const showVisualizer = () => {
+    // Do nothing: keep visualiser hidden
+};
+const hideVisualizer = () => {
+    const visualiser = document.getElementById('visualiser');
+    if (visualiser) visualiser.classList.add('hidden');
+};
