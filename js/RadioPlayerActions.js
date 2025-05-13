@@ -30,12 +30,10 @@ const initAudioVisualizer = () => {
 
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)()
-        console.log('AudioContext created')
     }
     if (!analyser) {
         analyser = audioContext.createAnalyser()
         analyser.fftSize = 128
-        console.log('AnalyserNode created')
     }
     // Only create sourceNode if not already created for this player
     if (!sourceNode || currentPlayerElement !== player) {
@@ -46,7 +44,6 @@ const initAudioVisualizer = () => {
         currentPlayerElement = player
         sourceNode.connect(analyser)
         analyser.connect(audioContext.destination)
-        console.log('MediaElementSource connected')
     }
 
     const bufferLength = analyser.frequencyBinCount
@@ -55,9 +52,6 @@ const initAudioVisualizer = () => {
     const draw = () => {
         animationFrame = requestAnimationFrame(draw)
         analyser.getByteFrequencyData(dataArray)
-
-        // Log the first 10 bytes for debugging
-        console.log('Audio bytes:', dataArray.slice(0, 10))
 
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -69,7 +63,6 @@ const initAudioVisualizer = () => {
         }
     }
 
-    console.log('Starting visualizer draw loop')
     draw()
 }
 

@@ -6,7 +6,14 @@ import { initPlaylist } from './Playlist.js?v=1'
 import { initPlayer } from './Player.js'
 import { typeSelectorEvents } from './GenericEvents.js'
 
-const data = await fetchUrl(baseUrl+"/data/playlist.json")
+// Helper to get query parameter
+function getQueryParam(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+const playlistUrl = getQueryParam('playlistUrl') || (baseUrl + "/data/playlist.json");
+const data = await fetchUrl(playlistUrl);
 
 const registerEvents = () => {
     typeSelectorEvents()
