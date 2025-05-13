@@ -59,7 +59,48 @@ const updatePlayer = async (data) => {
         const player = state.player
         player.crossOrigin = 'anonymous'
         player.src = data.stream_url
-        
+
+        // Show loading dots when playback is requested
+        const loadingDots = document.querySelector('.loading-dots')
+        if (loadingDots) loadingDots.classList.add('is-loading')
+
+        // Helper to hide loading dots and clean up listeners
+        let loadingTimeout
+        const cleanup = () => {
+            if (loadingDots) loadingDots.classList.remove('is-loading')
+            player.removeEventListener('progress', onData)
+            player.removeEventListener('playing', onData)
+            player.removeEventListener('canplay', onData)
+            player.removeEventListener('canplaythrough', onData)
+            player.removeEventListener('error', onError)
+            player.removeEventListener('pause', onPauseOrEnd)
+            player.removeEventListener('ended', onPauseOrEnd)
+            if (loadingTimeout) clearTimeout(loadingTimeout)
+        }
+        const onData = () => {
+            cleanup()
+        }
+        const onError = () => {
+            cleanup()
+            showError('Unable to play audio. Please try again.')
+        }
+        const onPauseOrEnd = () => {
+            cleanup()
+        }
+        player.addEventListener('progress', onData)
+        player.addEventListener('playing', onData)
+        player.addEventListener('canplay', onData)
+        player.addEventListener('canplaythrough', onData)
+        player.addEventListener('error', onError)
+        player.addEventListener('pause', onPauseOrEnd)
+        player.addEventListener('ended', onPauseOrEnd)
+
+        // Timeout: if no data after 10s, show error
+        loadingTimeout = setTimeout(() => {
+            cleanup()
+            showError('Network timeout. Unable to play audio.')
+        }, 10000)
+
         // Initialize visualizer when audio starts playing
         player.addEventListener('play', () => {
             if (audioContext?.state === 'suspended') {
@@ -74,6 +115,8 @@ const updatePlayer = async (data) => {
 
         await player.play()
     } catch (error) {
+        const loadingDots = document.querySelector('.loading-dots')
+        if (loadingDots) loadingDots.classList.remove('is-loading')
         console.error('Error playing audio:', error)
         showError('Unable to play audio. Please try again.')
     }
