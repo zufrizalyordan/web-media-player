@@ -4,7 +4,7 @@ import { loadTitle } from "./RadioPlayerActions.js"
 import { getState } from "./DataSource.js"
 
 export const playlistClicks = () => {
-    const items = document.querySelectorAll(".playlist-items li")
+    const items = document.querySelectorAll(".playlist-item")
     const state = getState()
 
     items.forEach((el) => {

@@ -4,52 +4,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web Media Player - A modern web-based media player for radio and music streaming">
     <title>Web Media Player</title>
-    <script src="js/app.js?v=0.5" type="module"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js?v=0.6" type="module"></script>
+    <link rel="stylesheet" href="css/style.css?v=0.7">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 </head>
 <body>
-<noscript>You don't have javascript enabled</noscript>
-<div id="app">
-    <div id="radio-player-info">
+<noscript>You need to enable JavaScript to use this application</noscript>
+<div id="app" role="application" aria-label="Media Player">
+    <div id="radio-player-info" role="region" aria-label="Player Information">
         <div class="radio-player-info__signal">
-            <div class="__music-image hidden"></div>
+            <div class="__music-image hidden" role="img" aria-label="Album Art"></div>
             <span class="__signal-title">
                 <b>FM</b>
                 <em class="__signal-no">0</em>
             </span>
-            <p  class="__signal-text">
+            <p class="__signal-text">
                 <small>MHz</small>
                 <b>00.00</b>
             </p>
         </div>
         <div class="radio-player-info__detail">
             <em>Now Playing</em>
-            <div class="loading-dots"><span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span></div>
+            <div class="loading-dots" role="status" aria-label="Loading"><span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span></div>
 
             <h1>Please select stream</h1>
-            <p class="radio-player-controls hidden">
-                <span class="__play hidden"><img src="images/play.svg" alt="Play"/></span>
-                <span class="__pause"><img src="images/pause.svg" alt="Pause"/></span>
-            </p>
+            <div class="radio-player-controls hidden" role="group" aria-label="Playback Controls">
+                <button class="__play hidden" aria-label="Play"><img src="images/play.svg" alt="Play"/></button>
+                <button class="__pause" aria-label="Pause"><img src="images/pause.svg" alt="Pause"/></button>
+            </div>
 
-            <span class="radio-player-volume hidden">
-                <input type="range" id="volume-slider" min="0" max="100" step="10" value="100" />
-            </span>
+            <div class="radio-player-volume hidden" role="group" aria-label="Volume Control">
+                <input type="range" id="volume-slider" min="0" max="100" step="1" value="100" aria-label="Volume" />
+            </div>
         </div>
     </div>
-    <div id="player"></div>
+    <div id="player" role="region" aria-label="Media Player"></div>
 
-    <div id="playlist">
-        <!-- <div class="type-selector">
-            <a href="javascript:void(0)" data-type="all">All</a>
-            <a href="javascript:void(0)" data-type="radio">Radio</a>
-            <a href="javascript:void(0)" data-type="music">Music</a>
+    <div id="playlist" role="region" aria-label="Playlist">
+        <div class="type-selector" role="group" aria-label="Content Type Filter">
+            <button type="button" data-type="all" aria-pressed="true">All</button>
+            <button type="button" data-type="radio" aria-pressed="false">Radio</button>
+            <button type="button" data-type="music" aria-pressed="false">Music</button>
         </div>
-        -->
         <p class="playlist-title">Favourites</p>
-        <ul class="playlist-items"></ul>
-        <!-- <canvas id="visualiser"></canvas> -->
+        <ul class="playlist-items" role="list"></ul>
+        <canvas id="visualiser" class="hidden" role="img" aria-label="Audio Visualizer"></canvas>
     </div>
 </div>
 </body>

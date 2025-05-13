@@ -3,61 +3,86 @@
 import { setState, getState } from "./DataSource.js"
 import { updatePlaylistActiveItem } from "./Playlist.js"
 
-const audioVis = () => {
+let audioContext = null
+let analyser = null
+let animationFrame = null
+
+const initAudioVisualizer = () => {
+    const canvas = document.getElementById('visualiser')
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
     const state = getState()
     const player = state.player
 
-    const audioCtx = window.AudioContext || window.webkitAudioContext
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)()
+        analyser = audioContext.createAnalyser()
+        analyser.fftSize = 256
+    }
 
-    const ctx = new audioCtx()
-    const stream = new MediaStream(source)
-    // const src = ctx.createMediaStreamSource(stream)
-    // src.connect(audioCtx.destination)
-    // new Audio().srcObject = stream
+    const source = audioContext.createMediaElementSource(player)
+    source.connect(analyser)
+    analyser.connect(audioContext.destination)
 
-    // ___
-    // let audioSource = audioCtx.createMediaStreamSource(stream)
-    // let analyser = audioCtx.createAnalyser()
-    // audioSource.connect(analyser)
-    // analyser.connect(audioCtx.destination)
-    // new Audio().srcObject = stream
-    // analyser.fftSize = 128
+    const bufferLength = analyser.frequencyBinCount
+    const dataArray = new Uint8Array(bufferLength)
+    const barWidth = canvas.width / bufferLength
+    let barHeight
 
-    // const bufferLength = analyser.frequencyBinCount
-    // const dataArray = new Uint8Array(bufferLength)
-    // const barWidth = canvas.width / bufferLength
-    // let barHeight
+    const animate = () => {
+        animationFrame = requestAnimationFrame(animate)
+        analyser.getByteFrequencyData(dataArray)
 
-    // function animate() {
-    //     x = 0
-    //     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    //     analyser.getByteFrequencyData(dataArray)
-    //     console.log(analyser)
-    //     for (let i = 0; i < bufferLength; i++) {
-    //         barHeight = dataArray[i];
-    //         ctx.fillStyle = "white"
-    //         ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
-    //         x += barWidth
-    //     }
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = '#337840'
 
-    //     requestAnimationFrame(animate)
-    //     console.log("animate")
-    // }
+        for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] * 2
+            ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 1, barHeight)
+        }
+    }
 
-    // animate()
+    animate()
+}
+
+const stopAudioVisualizer = () => {
+    if (animationFrame) {
+        cancelAnimationFrame(animationFrame)
+        animationFrame = null
+    }
 }
 
 const updatePlayer = async (data) => {
-    const state = getState()
-    const player = state.player
-    player.crossOrigin = true
-    player.src = data.stream_url
-    player.play()
+    try {
+        const state = getState()
+        const player = state.player
+        player.crossOrigin = 'anonymous'
+        player.src = data.stream_url
+        
+        // Initialize visualizer when audio starts playing
+        player.addEventListener('play', () => {
+            if (audioContext?.state === 'suspended') {
+                audioContext.resume()
+            }
+            initAudioVisualizer()
+        }, { once: true })
 
-    player.addEventListener('loadedmetadata', () => {
-        // console.clear()
-        // console.log("metadata loaded. playing stream..")
-    }, false)
+        player.addEventListener('pause', () => {
+            stopAudioVisualizer()
+        })
+
+        await player.play()
+    } catch (error) {
+        console.error('Error playing audio:', error)
+        showError('Unable to play audio. Please try again.')
+    }
+}
+
+const showError = (message) => {
+    const title = document.querySelector('#radio-player-info h1')
+    title.textContent = message
+    title.style.color = '#ff4444'
 }
 
 const updatePlayerControls = () => {
@@ -75,6 +100,7 @@ const updatePlayerControls = () => {
 const updatePlayerInfo = (data) => {
     const title = document.querySelector('#radio-player-info h1')
     title.textContent = data.title
+    title.style.color = '' // Reset error color if any
 }
 
 const showLoadingDots = (timeout) => {
@@ -232,6 +258,13 @@ export const initRadioPlayer = () => {
     toggleRadioPlayClickEvents()
     radioKeyboardEvents()
     setPlayerVolume()
+    
+    // Initialize audio context on user interaction
+    document.addEventListener('click', () => {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)()
+        }
+    }, { once: true })
 }
 
 const radioKeyboardEvents = () => {
@@ -270,9 +303,9 @@ const radioKeyboardEvents = () => {
 export const loadTitle = (data) => {
     const state = getState()
     setState({ selectedItem: data })
+    updatePlayerInfo(data)
     updatePlayer(data)
     updatePlayerControls()
-    updatePlayerInfo(data)
     updateToggleControls()
     updatePlayerSignalInfo(data)
     updatePlaylistActiveItem(data)
