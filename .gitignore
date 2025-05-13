@@ -16,4 +16,4 @@ dist/*
 # Ignore all files in the node_modules directory
 node_modules/*
 
-data/playlist.json
+data/*
