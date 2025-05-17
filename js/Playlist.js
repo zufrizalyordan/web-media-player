@@ -22,11 +22,12 @@ export const updatePlaylistActiveItem = () => {
 
 export const buildPlaylist = (data) => {
     if (data.length>0) {
-        // Group data into pairs
+        // Group data into pairs for desktop layout
         const rows = []
         for (let i = 0; i < data.length; i += 2) {
             rows.push(data.slice(i, i + 2))
         }
+        
         const list = rows.map(row => {
             const items = row.map(item => {
                 let img = ""
@@ -43,10 +44,11 @@ export const buildPlaylist = (data) => {
                 }
                 return `<div data-id=\"${item.id}\" data-type=\"${item.type}\" class=\"playlist-item\" tabindex=\"0\" aria-label=\"Station: ${item.title}\">${image}<div class=\"playlist-info\"><span class=\"title\">${item.title}</span>${meta}</div></div>`
             }).join("")
-            return `<div class=\"playlist-row\">${items}</div>`
-        })
+            return items
+        }).join("")
+        
         const playlistContainer = document.querySelector(".playlist-items")
-        playlistContainer.innerHTML = list.join("")
+        playlistContainer.innerHTML = list
 
         // Add keyboard support for playlist-item activation
         playlistContainer.querySelectorAll('.playlist-item').forEach(item => {

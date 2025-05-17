@@ -73,17 +73,28 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 10px;
+
+	@media screen and (max-width: 768px) {
+		align-items: flex-start;
+		padding-top: 20px;
+	}
 }
 
 #app {
 	font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 	background-color: #e8e8e8;
-	width: 400px;
-	padding: 20px;
+	width: 100%;
+	max-width: 600px;
+	padding: 15px;
 	margin: 0 auto;
 	@extend .border-rad;
 	transition: all 0.3s ease;
+
+	@media screen and (max-width: 768px) {
+		margin-top: 0;
+	}
 
 	&:hover {
 		box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
@@ -354,50 +365,45 @@ h1 {
 		text-transform: uppercase;
 		font-size: 0.75em;
 		color: #717171;
-		margin-bottom: 5px;
+		margin-bottom: 10px;
 	}
 
 	.playlist-logo {
-		width: 25px;
-		height: 25px;
+		width: 40px;
+		height: 40px;
 		display: inline-block;
 		background-size: contain;
 		background-repeat: no-repeat;
 		background-position: center;
-		margin-right: 5px;
+		flex-shrink: 0;
 	}
 
 	.playlist-items {
 		display: flex;
 		flex-direction: column;
-		gap: 16px;
-		padding: 0;
+		gap: 10px;
+		padding: 5px;
 		margin: 0;
 		width: 100%;
 		box-sizing: border-box;
-	}
 
-	.playlist-row {
-		display: flex;
-		gap: 16px;
-		padding: 0;
-		margin: 0;
-		width: 100%;
-		box-sizing: border-box;
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
 	}
 
 	.playlist-item {
-		flex: 1 1 0;
-		min-width: 0;
+		width: 100%;
 		margin: 0;
 		background-color: #fefefe;
-		padding: 10px;
-		border-radius: 5px;
+		padding: 12px;
+		border-radius: 8px;
 		border: 1px solid #ebebeb;
 		box-shadow: 1px 3px 3px #cccccc;
 		white-space: nowrap;
 		overflow: hidden;
-		font-size: 0.8em;
+		font-size: 0.9em;
 		position: relative;
 		opacity: 0.8;
 		transition: all 0.2s ease;
@@ -405,6 +411,11 @@ h1 {
 		display: flex;
 		align-items: center;
 		gap: 10px;
+		min-height: 64px;
+
+		@media screen and (min-width: 768px) {
+			width: calc(50% - 5px);
+		}
 
 		&:hover {
 			opacity: 1;
@@ -419,41 +430,28 @@ h1 {
 			background-color: #f8f8f8;
 		}
 
-		&[data-type="radio"] {
-			width: 100%;
+		.playlist-info {
+			flex: 1;
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			padding: 0;
 		}
 
-		&[data-type="music"] {
-			width: 100%;
+		.title {
+			display: block;
+			font-weight: 500;
+			margin-bottom: 4px;
+		}
 
-			div.playlist-info {
-				padding-top: 0;
-			}
-
-			.meta {
-				display: block;
-				color: rgb(128, 128, 128);
-				padding-top: 2px;
-				font-size: 0.7rem;
-				white-space: normal;
-				line-height: 1.4;
-			}
-
-			.duration {
-				float: right;
-			}
+		.meta {
+			display: block;
+			color: rgb(128, 128, 128);
+			font-size: 0.8em;
+			white-space: normal;
+			line-height: 1.4;
 		}
 	}
-}
-
-.playlist-info {
-	display: inline-block;
-	vertical-align: top;
-	padding-top: 6px;
-	flex: 1;
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #visualiser {
